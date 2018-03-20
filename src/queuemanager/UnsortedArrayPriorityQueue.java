@@ -42,7 +42,18 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return ((PriorityItem<T>) storage[0]).getItem();
+            int i = tailIndex;
+            i = i - 1;
+            
+            int value = i;
+            while (i > 0 ){
+                i = i - 1;
+                if(((PriorityItem<T>)storage[value]).getPriority() 
+                    <((PriorityItem<T>)storage[i]).getPriority()){
+                    value = i;
+                }
+            }
+            return ((PriorityItem<T>) storage[value]).getItem();
         }
     }
     
@@ -55,12 +66,8 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
             tailIndex = tailIndex - 1;
             throw new QueueOverflowException();
         } else {
-            /* Scan backwards looking for insertion point */
+            /* Creates new item at top of list */
             int i = tailIndex;
-            while (i > 0 && ((PriorityItem<T>) storage[i - 1]).getPriority() < priority) {
-                storage[i] = storage[i - 1];
-                i = i - 1;
-            }
             storage[i] = new PriorityItem<>(item, priority);
         }
     }
@@ -70,10 +77,24 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            for (int i = 0; i < tailIndex; i++) {
+            
+            int i = tailIndex;
+            i = i - 1;
+            
+            int value = i;
+            while (i > 0 ){
+                i = i - 1;
+                if(((PriorityItem<T>)storage[value]).getPriority() 
+                    <((PriorityItem<T>)storage[i]).getPriority()){
+                    value = i;
+                }
+            }
+            
+            for (i = value; i < tailIndex; i++) {
                 storage[i] = storage[i + 1];
             }
             tailIndex = tailIndex - 1;
+   
         }
     }
 
