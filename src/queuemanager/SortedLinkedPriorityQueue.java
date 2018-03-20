@@ -8,26 +8,17 @@ package queuemanager;
 /**
  *
  * @author Kieran
+ * @param <T>
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
     private final Object[] storage;
 
-    /**
-     * The size of the storage array.
-     */
     private final int capacity;
 
-    /**
-     * The index of the last item stored.
-     *
-     * This is equal to the item count minus one.
-     */
     private int tailIndex;
 
     /**
-     * Create a new empty queue of the given size.
-     *
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
@@ -45,6 +36,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         }
     }
     
+    @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
     tailIndex = tailIndex + 1;
