@@ -5,6 +5,8 @@
  */
 package queuemanager;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kieran
@@ -12,14 +14,32 @@ package queuemanager;
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
-    private final List<T> top;
-
+    ArrayList<PriorityItem> list;
     
+    private final Object[] storage;
+
     /**
+     * The size of the storage array.
+     */
+    private final int capacity;
+
+    /**
+     * The index of the last item stored.
+     *
+     * This is equal to the item count minus one.
+     */
+    private int tailIndex;
+
+    /**
+     * Create a new empty queue of the given size.
+     *
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
-        top = null;
+        storage = new Object[size];
+        list = new ArrayList<PriorityItem>();
+        capacity = size;
+        tailIndex = -1;
     }
 
     @Override
@@ -27,20 +47,40 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return top.getItem();
+            tailIndex = list.size();
+            return list.get(0);
+            return ((PriorityItem<T>) storage[0]).getItem();
         }
     }
     
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-
-        
+        tailIndex = list.size();
+        if (tailIndex >= capacity) {
+            /* No resizing implemented, but that would be a good enhancement. */
+            tailIndex = tailIndex - 1;
+            throw new QueueOverflowException();
+        } else {
+            /* Scan backwards looking for insertion point */
+            int i = tailIndex;
+            while (i > 0 && (list.get(i).getPriority()) < priority) {
+                list.set(i,new PriorityItem()) = list.get(i-1, PriorityItem);
+                i = i - 1;
+            }
+            list.set(i, new PriorityItem(item, priority));
+        }
     }
     
     @Override
     public void remove() throws QueueUnderflowException {
-
+    if (isEmpty()) {
+            throw new QueueUnderflowException();
+        }
+        else
+        {
+        list.remove(tailIndex);
+        }
     }
 
     @Override
