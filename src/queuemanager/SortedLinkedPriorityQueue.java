@@ -14,6 +14,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
     private final List<T> top;
 
+    
     /**
      * @param size
      */
