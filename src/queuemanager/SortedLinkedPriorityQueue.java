@@ -64,7 +64,6 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         } else {
             /* Scan backwards looking for insertion point */
             int i = tailIndex;
-            priority = listInt.get(i);
                 
             while (i > 0 && (listInt.get(i)) < priority) {
                 listItem.set(i,listItem.get(i-1));
