@@ -12,19 +12,13 @@ package queuemanager;
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
-    private final Object[] storage;
-
-    private final int capacity;
-
-    private int tailIndex;
+    private final List<T> top;
 
     /**
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
-        storage = new Object[size];
-        capacity = size;
-        tailIndex = -1;
+        top = null;
     }
 
     @Override
@@ -32,54 +26,36 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return ((PriorityItem<T>) storage[0]).getItem();
+            return top.getItem();
         }
     }
     
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-    tailIndex = tailIndex + 1;
-        if (tailIndex >= capacity) {
-            /* No resizing implemented, but that would be a good enhancement. */
-            tailIndex = tailIndex - 1;
-            throw new QueueOverflowException();
-        } else {
-            /* Scan backwards looking for insertion point */
-            int i = tailIndex;
-            while (i > 0 && ((PriorityItem<T>) storage[i - 1]).getPriority() < priority) {
-                storage[i] = storage[i - 1];
-                i = i - 1;
-            }
-            storage[i] = new PriorityItem<>(item, priority);
-        }
+
+        
     }
     
     @Override
     public void remove() throws QueueUnderflowException {
-        if (isEmpty()) {
-            throw new QueueUnderflowException();
-        } else {
-            for (int i = 0; i < tailIndex; i++) {
-                storage[i] = storage[i + 1];
-            }
-            tailIndex = tailIndex - 1;
-        }
+
     }
 
     @Override
     public boolean isEmpty() {
-        return tailIndex < 0;
+        return false;
     }
 
     @Override
     public String toString() {
         String result = "[";
-        for (int i = 0; i <= tailIndex; i++) {
+        int counter = 1;
+        for (int i = 0; i <= counter; i++) {
             if (i > 0) {
                 result = result + ", ";
             }
-            result = result + storage[i];
+            result = result;
         }
         result = result + "]";
         return result;
