@@ -12,7 +12,7 @@ package queuemanager;
  */
 public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     
-    private final Object[] storage;
+    AnyType[] heap;
 
     private final int capacity;
 
@@ -22,7 +22,6 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
      * @param size
      */
     public HeapPriorityQueue(int size) {
-        storage = new Object[size];
         capacity = size;
         tailIndex = -1;
     }
@@ -32,7 +31,7 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return ((PriorityItem<T>) storage[0]).getItem();
+            return ;
         }
     }
     
@@ -47,11 +46,8 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
         } else {
             /* Scan backwards looking for insertion point */
             int i = tailIndex;
-            while (i > 0 && ((PriorityItem<T>) storage[i - 1]).getPriority() < priority) {
-                storage[i] = storage[i - 1];
-                i = i - 1;
+            while (i > 0 && ( < priority) {
             }
-            storage[i] = new PriorityItem<>(item, priority);
         }
     }
     
@@ -61,7 +57,6 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
             throw new QueueUnderflowException();
         } else {
             for (int i = 0; i < tailIndex; i++) {
-                storage[i] = storage[i + 1];
             }
             tailIndex = tailIndex - 1;
         }
