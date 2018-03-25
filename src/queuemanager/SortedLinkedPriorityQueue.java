@@ -13,10 +13,9 @@ import java.util.ArrayList;
  * @param <T>
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
-    
+      
     ArrayList<T> listItem;
     ArrayList<Integer> listInt;
-    ArrayList<PriorityItem> list;
 
     /**
      * The size of the storage array.
