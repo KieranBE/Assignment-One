@@ -16,8 +16,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
     ArrayList<T> listItem;
     ArrayList<Integer> listInt;
-    
-    private final Object[] storage;
+    ArrayList<PriorityItem> list;
 
     /**
      * The size of the storage array.
@@ -37,11 +36,10 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
-        storage = new Object[size];
         listItem = new ArrayList<T>();
         listInt = new ArrayList<Integer>();
-        capacity = size;
         tailIndex = -1;
+        capacity = size;
     }
 
     @Override
