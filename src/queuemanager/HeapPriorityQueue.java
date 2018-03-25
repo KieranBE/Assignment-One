@@ -12,9 +12,9 @@ package queuemanager;
  */
 public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     
-    AnyType[] heap;
+    private T[] heap;
 
-    private final int capacity;
+    private final int capacity = 2;
 
     private int tailIndex;
 
@@ -22,7 +22,7 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
      * @param size
      */
     public HeapPriorityQueue(int size) {
-        capacity = size;
+        heap = (T[])new Comparable[capacity];
         tailIndex = -1;
     }
 
@@ -31,7 +31,7 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return ;
+            return heap[0];
         }
     }
     
