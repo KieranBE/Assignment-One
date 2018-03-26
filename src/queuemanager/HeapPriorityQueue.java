@@ -62,7 +62,52 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     }
     
     public void sortHeap(){
+      tailIndex = heap.length;
+      heap = (PriorityItem[]) new Comparable[tailIndex+1];
+      System.arraycopy(array, 0, heap, 1, tailIndex);
+      buildHeap();
+
+      for (int i = tailIndex; i > 0; i--)
+      {
+         PriorityItem<T> tmp = heap[i]; //move top item to the end of the heap array
+         heap[i] = heap[1];
+         heap[1] = tmp;
+         tailIndex--;
+         percolatingDown(1);
+      }
+      for(int k = 0; k < heap.length-1; k++)
+         array[k] = heap[heap.length - 1 - k];
+   }
     
+    public void buildHeap() 
+    {   
+        tailIndex = heap.length;
+        for (int k = tailIndex/2; k > 0; k--)
+        {
+        percolatingDown(k);
+        }
+    }
+
+    private void percolatingDown(int k)
+    {
+    PriorityItem<T> tmp = heap[k];
+    int tmpInt = heap[k].getPriority();
+    int child;
+    
+    tailIndex = heap.length;
+    for(; 2*k <= tailIndex; k = child)
+    {
+    child = 2*k;
+
+    if(child != tailIndex &&
+    ((heap[child]).getPriority()) < ((heap[child + 1]).getPriority())) child++;
+
+    if(tmpInt < (heap[child].getPriority()))  
+        heap[k] = heap[child];
+    else
+        break;
+    }
+    heap[k] = tmp;
     }
 
     @Override
@@ -73,11 +118,11 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     @Override
     public String toString() {
         String result = "[";
-        for (int i = 0; i <= tailIndex; i++) {
+        for (int i = 0; i <= heap.length; i++) {
             if (i > 0) {
                 result = result + ", ";
             }
-            result = result + storage[i];
+            result = result + heap[i];
         }
         result = result + "]";
         return result;
