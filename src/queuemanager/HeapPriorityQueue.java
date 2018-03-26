@@ -12,7 +12,7 @@ package queuemanager;
  */
 public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     
-    private T[] heap;
+    private PriorityItem<T>[] heap;
 
     private final int capacity = 2;
 
@@ -22,7 +22,7 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
      * @param size
      */
     public HeapPriorityQueue(int size) {
-        heap = (T[])new Comparable[capacity];
+        heap = (PriorityItem<T>[])new Comparable[capacity];
         tailIndex = -1;
     }
 
@@ -31,7 +31,7 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return heap[0];
+            return (heap[0]).getItem();
         }
     }
     
@@ -46,8 +46,8 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
         } else {
             /* Scan backwards looking for insertion point */
             int i = tailIndex;
-            while (i > 0 && ( < priority) {
-            }
+            
+            heap[i] = new PriorityItem<>(item, priority);
         }
     }
     
