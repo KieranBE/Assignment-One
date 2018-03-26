@@ -40,8 +40,8 @@ public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-    tailIndex = tailIndex + 1;
-        if (tailIndex >= capacity) {
+    tailIndex = heap.length + 1;
+        if (tailIndex >= heap.length + 2) {
             /* No resizing implemented, but that would be a good enhancement. */
             tailIndex = tailIndex - 1;
             throw new QueueOverflowException();
