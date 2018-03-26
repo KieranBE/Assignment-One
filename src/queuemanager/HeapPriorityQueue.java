@@ -13,6 +13,8 @@ package queuemanager;
 public class HeapPriorityQueue<T> implements PriorityQueue<T> {
     
     private PriorityItem<T>[] heap;
+    
+    private PriorityItem<T>[] array;
 
     private final int capacity = 2;
 
