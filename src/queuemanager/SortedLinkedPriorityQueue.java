@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
       
-    ArrayList<T> listItem;
-    ArrayList<Integer> listInt;
+    ArrayList<PriorityItem<T>> list;
+    private PriorityItem<T> top;
 
     /**
      * The size of the storage array.
@@ -35,8 +35,8 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
-        listItem = new ArrayList<T>();
-        listInt = new ArrayList<Integer>();
+        list = new ArrayList<PriorityItem<T>>();
+        top = null;
         tailIndex = -1;
         capacity = size;
     }
@@ -46,29 +46,35 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return listItem.get(0);
+            return (list.get(0)).getItem();
         }
     }
     
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-        tailIndex = listItem.size();
+        tailIndex = list.size();
         if (tailIndex >= capacity) {
             /* No resizing implemented, but that would be a good enhancement. */
-            tailIndex = tailIndex - 1;
+            tailIndex = tailIndex - 1; 
             throw new QueueOverflowException();
         } else {
             /* Scan backwards looking for insertion point */
             int i = tailIndex;
-                
-            while (i > 0 && (listInt.get(i)) < priority) {
-                listItem.set(i,listItem.get(i-1));
-                listInt.set(i,listInt.get(i-1)); 
+            if(tailIndex == 0)
+            {
+            list.add(i,new PriorityItem<>(item, priority));
+            }
+            else
+            {
+                i--;
+                list.add(i,new PriorityItem<>(item, priority));
+            while (i > 0 && (list.get(i)).getPriority() < priority) {
+                list.set(i,list.get(i-1));
                 i = i - 1;
             }
-            listItem.set(i,item);
-            listInt.set(i,priority);
+            list.set(i,new PriorityItem<>(item, priority));
+        }
         }
     }
     
@@ -79,14 +85,13 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         }
         else
         {
-        listItem.remove(0);
-        listInt.remove(0);
+        list.remove(0);
         }
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return top == null;
     }
 
     @Override
@@ -97,7 +102,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
             if (i > 0) {
                 result = result + ", ";
             }
-            result = result;
+            result = result + list.get(i);
         }
         result = result + "]";
         return result;
