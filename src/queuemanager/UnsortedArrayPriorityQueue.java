@@ -43,7 +43,6 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
             throw new QueueUnderflowException();
         } else {
             int i = tailIndex;
-            i = i - 1;
             
             int value = i;
             while (i > 0 ){
@@ -79,7 +78,6 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         } else {
             
             int i = tailIndex;
-            i = i - 1;
             
             int value = i;
             while (i > 0 ){
