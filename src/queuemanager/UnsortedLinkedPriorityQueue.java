@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     
-    ArrayList<PriorityItem<T>> list;
+    private PriorityItem<T> top;
 
     /**
      * The size of the storage array.
@@ -35,7 +35,7 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
      */
     public UnsortedLinkedPriorityQueue(int size) {
 
-        list = new ArrayList<PriorityItem<T>>();
+        top = null;
         capacity = size;
         tailIndex = -1;
     }
@@ -45,33 +45,20 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            int i = list.size();
-            
-            int value = i;
-            while (i > 0 ){
-                i = i - 1;
-                if(list.get(value).getPriority() < list.get(i).getPriority()){
-                    value = i;
-                }
-            }
-            return list.get(i).getItem();
+            return top.getItem();
         }
     }
     
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-    tailIndex = list.size() + 1;
         if (tailIndex >= capacity) {
             /* No resizing implemented, but that would be a good enhancement. */
             tailIndex = tailIndex - 1;
             throw new QueueOverflowException();
         } else {
             /* Scan backwards looking for insertion point */
-            int i = tailIndex;
-
-            list.set(i,new PriorityItem<>(item, priority));
-     
+            top = new PriorityItem<>(item, priority, top);
         }
     }
     
@@ -80,21 +67,8 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            int i = list.size();
-            
-            int value = i;
-            while (i > 0 ){
-                i = i - 1;
-                if(list.get(value).getPriority() < list.get(i).getPriority()){
-                    value = i;
-                }
+            top = top.getNext();
             }
-            
-            for (i = value; i < list.size(); i++) {
-                list.set(i,list.get(i+1));
-            }
-            
-        }
     }
 
     @Override
@@ -105,12 +79,13 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     @Override
     public String toString() {
         String result = "[";
-        for (int i = 0; i <= tailIndex; i++) {
-            if (i > 0) {
-                result = result + ", ";
+        for (PriorityItem<T> node = top; node != null; node = node.getNext()) {
+            if (node != top) {
+                result += ", ";
             }
-            result = result + list.get(i);
+            result += "(" + node.getItem() + ", " + node.getPriority() + ")";
         }
+
         result = result + "]";
         return result;
     }

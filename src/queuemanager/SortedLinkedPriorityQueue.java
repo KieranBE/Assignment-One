@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
       
-    ArrayList<PriorityItem<T>> list;
     private PriorityItem<T> top;
 
     /**
@@ -35,7 +34,6 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
-        list = new ArrayList<PriorityItem<T>>();
         top = null;
         tailIndex = -1;
         capacity = size;
@@ -46,35 +44,20 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            return (list.get(0)).getItem();
+            return top.getItem();
         }
     }
     
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
-        tailIndex = list.size();
         if (tailIndex >= capacity) {
             /* No resizing implemented, but that would be a good enhancement. */
             tailIndex = tailIndex - 1; 
             throw new QueueOverflowException();
         } else {
             /* Scan backwards looking for insertion point */
-            int i = tailIndex;
-            if(tailIndex == 0)
-            {
-            list.add(i,new PriorityItem<>(item, priority));
-            }
-            else
-            {
-                i--;
-                list.add(i,new PriorityItem<>(item, priority));
-            while (i > 0 && (list.get(i)).getPriority() < priority) {
-                list.set(i,list.get(i-1));
-                i = i - 1;
-            }
-            list.set(i,new PriorityItem<>(item, priority));
-        }
+            top = new PriorityItem<>(item, priority, top);
         }
     }
     
@@ -85,7 +68,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         }
         else
         {
-        list.remove(0);
+        top = top.getNext();
         }
     }
 
@@ -95,15 +78,15 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     }
 
     @Override
-    public String toString() {
+    public String toString() {        
         String result = "[";
-        int counter = 1;
-        for (int i = 0; i <= counter; i++) {
-            if (i > 0) {
-                result = result + ", ";
+        for (PriorityItem<T> node = top; node != null; node = node.getNext()) {
+            if (node != top) {
+                result += ", ";
             }
-            result = result + list.get(i);
+            result += "(" + node.getItem() + ", " + node.getPriority() + ")";
         }
+
         result = result + "]";
         return result;
     }
