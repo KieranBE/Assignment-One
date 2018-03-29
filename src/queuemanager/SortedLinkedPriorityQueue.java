@@ -15,8 +15,10 @@ import java.util.ArrayList;
 public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
       
     private PriorityItem<T> top;
-
-    /**
+    ArrayList<PriorityItem<T>> list;
+    ArrayList<PriorityItem<T>> listback;
+    
+        /**
      * The size of the storage array.
      */
     private final int capacity;
@@ -34,9 +36,11 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
      * @param size
      */
     public SortedLinkedPriorityQueue(int size) {
+        list = new ArrayList<PriorityItem<T>>();
+        listback = new ArrayList<PriorityItem<T>>();
         top = null;
-        tailIndex = -1;
         capacity = size;
+        tailIndex = -1;
     }
 
     @Override
@@ -51,13 +55,49 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
+        tailIndex = list.size();
         if (tailIndex >= capacity) {
             /* No resizing implemented, but that would be a good enhancement. */
             tailIndex = tailIndex - 1; 
             throw new QueueOverflowException();
         } else {
             /* Scan backwards looking for insertion point */
-            top = new PriorityItem<>(item, priority, top);
+            int i = tailIndex;
+            System.out.println(item);
+            System.out.println(priority);
+            if(tailIndex == 0)
+            {
+            list.add(i,new PriorityItem<>(item, priority));
+            }
+            else
+            {
+                int counter = 0;
+                
+            while (i > 0 && (list.get(i-1)).getPriority() < priority) {
+                
+                if(counter == 0){
+                list.add(i,new PriorityItem<>(item, priority));
+                counter++;
+                }
+                listback.add(0 ,list.get(i-1));
+                list.set(i-1,list.get(i));
+                list.set(i,listback.get(0));
+                System.out.println(list);
+                i = i - 1;
+            }
+            list.set(i,new PriorityItem<>(item, priority));
+
+            i = tailIndex;
+                System.out.println(i);
+		top = null;
+                
+            while (i != -1) {
+                System.out.println(list.get(i));
+                top = new PriorityItem<>((list.get(i).getItem()), (list.get(i).getPriority()), top);
+                i = i - 1;
+            }
+            
+            }
         }
     }
     
@@ -80,13 +120,20 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
     @Override
     public String toString() {        
         String result = "[";
+        if(top == null)
+        {
+        result = result + "]";
+        return result;
+        }
+        else
+        { 
         for (PriorityItem<T> node = top; node != null; node = node.getNext()) {
             if (node != top) {
                 result += ", ";
             }
             result += "(" + node.getItem() + ", " + node.getPriority() + ")";
         }
-
+        }
         result = result + "]";
         return result;
     }
