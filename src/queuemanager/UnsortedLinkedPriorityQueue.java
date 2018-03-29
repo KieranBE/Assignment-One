@@ -60,7 +60,12 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
             node = node.getNext();
                 
             while (i > 0 ){
+                if(i == 1)
+                {
+                return highitem;
+                }
                 i = i - 1;
+                
                 if(highpriority < node.getPriority()){     
                 highitem = node.getItem();
                 highpriority = node.getPriority();
@@ -83,7 +88,6 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
             int i = tailIndex;
             list.add(i,new PriorityItem<>(item, priority));
             top = new PriorityItem<>(item, priority, top);
-            System.out.println(list.get(i).getPriority());
         }
     }
     
@@ -113,7 +117,6 @@ public class UnsortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
             
             
             while (i < tailIndex + 1) {
-                System.out.println(i);
                 top = new PriorityItem<>((list.get(i).getItem()), (list.get(i).getPriority()), top);
                 i = i + 1;
             }
