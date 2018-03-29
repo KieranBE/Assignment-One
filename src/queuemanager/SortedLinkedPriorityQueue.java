@@ -82,17 +82,14 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
                 listback.add(0 ,list.get(i-1));
                 list.set(i-1,list.get(i));
                 list.set(i,listback.get(0));
-                System.out.println(list);
                 i = i - 1;
             }
             list.set(i,new PriorityItem<>(item, priority));
 
             i = tailIndex;
-                System.out.println(i);
-		top = null;
+            top = null;
                 
             while (i != -1) {
-                System.out.println(list.get(i));
                 top = new PriorityItem<>((list.get(i).getItem()), (list.get(i).getPriority()), top);
                 i = i - 1;
             }
@@ -109,6 +106,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         else
         {
         top = top.getNext();
+        list.remove(0);
         }
     }
 
