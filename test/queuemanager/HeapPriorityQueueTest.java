@@ -21,20 +21,8 @@ public class HeapPriorityQueueTest {
     public HeapPriorityQueueTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -81,26 +69,6 @@ public class HeapPriorityQueueTest {
         System.out.println("remove");
         HeapPriorityQueue instance = null;
         instance.remove();
-    }
-
-    /**
-     * Test of sortHeap method, of class HeapPriorityQueue.
-     */
-    @Test
-    public void testSortHeap() {
-        System.out.println("sortHeap");
-        HeapPriorityQueue instance = null;
-        instance.sortHeap();
-    }
-
-    /**
-     * Test of buildHeap method, of class HeapPriorityQueue.
-     */
-    @Test
-    public void testBuildHeap() {
-        System.out.println("buildHeap");
-        HeapPriorityQueue instance = null;
-        instance.buildHeap();
     }
 
     /**
