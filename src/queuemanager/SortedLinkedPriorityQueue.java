@@ -71,7 +71,7 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
             /* If list size is 0, adds item to list */
             if(tailIndex == 0)
             {
-            list.add(i,new PriorityItem<>(item, priority));
+                list.add(i,new PriorityItem<>(item, priority));
             }
             else
             {
@@ -80,8 +80,8 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
                 
                 /* Adds item to list then adds adds one to counter */
                 if(counter == 0){
-                list.add(i,new PriorityItem<>(item, priority));
-                counter++;
+                    list.add(i,new PriorityItem<>(item, priority));
+                    counter++;
                 }
                 
             /* Loops while the priority in the list is less than current priority */
@@ -119,8 +119,8 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         }
         else
         {
-        linkedList = linkedList.getNext();
-        list.remove(0);
+            linkedList = linkedList.getNext();
+            list.remove(0);
         }
     }
 
@@ -134,17 +134,17 @@ public class SortedLinkedPriorityQueue <T> implements PriorityQueue<T> {
         String result = "[";
         if(linkedList == null)
         {
-        result = result + "]";
-        return result;
+            result = result + "]";
+            return result;
         }
         else
         { 
-        for (PriorityItem<T> node = linkedList; node != null; node = node.getNext()) {
-            if (node != linkedList) {
-                result += ", ";
+            for (PriorityItem<T> node = linkedList; node != null; node = node.getNext()) {
+                if (node != linkedList) {
+                    result += ", ";
+                }
+                result += "(" + node.getItem() + ", " + node.getPriority() + ")";
             }
-            result += "(" + node.getItem() + ", " + node.getPriority() + ")";
-        }
         }
         result = result + "]";
         return result;
