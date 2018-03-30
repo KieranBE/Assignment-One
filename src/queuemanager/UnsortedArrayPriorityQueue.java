@@ -42,16 +42,19 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
+            /* Sets i to the size of the array */
             int i = tailIndex;
-            
+            /* sets the highest to the value at the top of the array */
             int value = i;
             while (i > 0 ){
                 i = i - 1;
+                /* Checks if the priority at value is less than priority at i, if so it sets value to i */
                 if(((PriorityItem<T>)storage[value]).getPriority() 
                     <((PriorityItem<T>)storage[i]).getPriority()){
                     value = i;
                 }
             }
+            /* Returns the item with value, the position that has the highest priority */
             return ((PriorityItem<T>) storage[value]).getItem();
         }
     }
@@ -59,6 +62,7 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
     @Override
     public void add(T item, int priority) throws QueueOverflowException 
     {
+    /* Adds one to tailIndex to find the next position for the newest item */
     tailIndex = tailIndex + 1;
         if (tailIndex >= capacity) {
             /* No resizing implemented, but that would be a good enhancement. */
@@ -77,17 +81,21 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
             throw new QueueUnderflowException();
         } else {
             
+            /* Set I to the most recent item */
             int i = tailIndex;
             
+            /* Sets the highest priority to the most recent item */
             int value = i;
             while (i > 0 ){
                 i = i - 1;
+                /* Checks if the position below is higher than value, if so it sets that position to the new highest */
                 if(((PriorityItem<T>)storage[value]).getPriority() 
                     <((PriorityItem<T>)storage[i]).getPriority()){
                     value = i;
                 }
             }
             
+            /* Then moves everything from the down a slot from the highest */
             for (i = value; i < tailIndex; i++) {
                 storage[i] = storage[i + 1];
             }
@@ -103,6 +111,7 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
 
     @Override
     public String toString() {
+        /* Adds everything in the array to a string called result */
         String result = "[";
         for (int i = 0; i <= tailIndex; i++) {
             if (i > 0) {
@@ -111,6 +120,7 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
             result = result + storage[i];
         }
         result = result + "]";
+        /* Returns all in stored items and prioritys in result */
         return result;
     }
     
